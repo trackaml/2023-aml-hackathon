@@ -1,45 +1,33 @@
-import type { V2_MetaFunction } from '@remix-run/node'
+import { json, type V2_MetaFunction } from '@remix-run/node'
+import { prisma } from '~/services/db.server'
+import { EntityTable } from '../components'
+import { Header } from '../layout/header'
 
 export const meta: V2_MetaFunction = () => {
     return [
-        { title: 'New Remix App' },
-        { name: 'description', content: 'Welcome to Remix!' },
+        { title: 'TrackAML App' },
+        { name: 'description', content: 'Welcome to TrackAML!' },
     ]
+}
+
+export const loader = async () => {
+    const entities = await prisma.potentialRisk.findMany({})
+
+    console.log({ entities })
+
+    return json({})
 }
 
 export default function Index() {
     return (
-        <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
-            <h1>Welcome to Remix</h1>
-            <ul>
-                <li>
-                    <a
-                        target="_blank"
-                        href="https://remix.run/tutorials/blog"
-                        rel="noreferrer"
-                    >
-                        15m Quickstart Blog Tutorial
-                    </a>
-                </li>
-                <li>
-                    <a
-                        target="_blank"
-                        href="https://remix.run/tutorials/jokes"
-                        rel="noreferrer"
-                    >
-                        Deep Dive Jokes App Tutorial
-                    </a>
-                </li>
-                <li>
-                    <a
-                        target="_blank"
-                        href="https://remix.run/docs"
-                        rel="noreferrer"
-                    >
-                        Remix Docs
-                    </a>
-                </li>
-            </ul>
+        <div className="min-h-full">
+            <Header title="Illicit offshore sand mining risk ranking"></Header>
+
+            <main className="-mt-32">
+                <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+                    <EntityTable entities={[]}></EntityTable>
+                </div>
+            </main>
         </div>
     )
 }
