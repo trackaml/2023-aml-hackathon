@@ -22,9 +22,12 @@
         "clsx": "^1.2.1",
         "date-fns": "^2.30.0",
         "isbot": "^3.6.8",
+        "lodash": "^4.17.21",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-range-slider-input": "^3.0.7"
+        "react-range-slider-input": "^3.0.7",
+        "reagraph": "^4.8.3",
+        "remix-utils": "^6.4.1"
     },
     "devDependencies": {
         "@remix-run/dev": "^1.17.0",

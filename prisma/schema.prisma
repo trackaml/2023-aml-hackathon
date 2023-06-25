@@ -8,7 +8,7 @@ datasource db {
 }
 
 model BeneficialOwner {
-  id                   Int           @id
+  id                   Int               @id
   company_id           Int?
   stakehold_type       String?
   stakeholder_name     String?
@@ -18,18 +18,20 @@ model BeneficialOwner {
   price_per_sheet      Int?
   total_share_placed   Int?
   position             String?
-  identity_id          String?
+  identity_id          String?           @unique
   address              String?
   job                  String?
   province             String?
   regency              String?
-  company_profile      CompanyProfile? @relation(fields: [company_id], references: [id], onUpdate: NoAction)
+  company_profile      CompanyProfile?   @relation(fields: [company_id], references: [id], onUpdate: NoAction)
+  source_transactions  TransactionData[] @relation("Source")
+  dest_transactions    TransactionData[] @relation("Dest")
 
   @@map("beneficial_owner")
 }
 
 model CompanyProfile {
-  id               Int             @id
+  id               Int               @id
   company_name     String?
   address          String?
   postal_code      String?
@@ -44,20 +46,20 @@ model CompanyProfile {
 }
 
 model PotentialRisk {
-  id           Int    @id @default(autoincrement())
+  id           Int             @id @default(autoincrement())
   company_name String?
-  risk1        Float?    @db.Real
-  risk2        Float?    @db.Real
-  total_risk   Float?    @db.Real
-  created_at   DateTime? @default(now()) @db.Timestamptz(6)
-  company_id   Int @unique
+  risk1        Float?          @db.Real
+  risk2        Float?          @db.Real
+  total_risk   Float?          @db.Real
+  created_at   DateTime?       @default(now()) @db.Timestamptz(6)
+  company_id   Int             @unique
   company      CompanyProfile? @relation(fields: [company_id], references: [id], onUpdate: NoAction)
 
   @@map("potential_risk")
 }
 
 model TransactionData {
-  id                       Int  @id
+  id                       Int     @id
   reporter_name            String?
   reporter_id              String?
   reporter_type            String?
@@ -82,5 +84,8 @@ model TransactionData {
   transaction_value        Int?
   transaction_location     String?
 
-    @@map("transaction_data")
+  source BeneficialOwner? @relation("Source", fields: [PEA_name_source], references: [identity_id], onUpdate: NoAction)
+  dest   BeneficialOwner? @relation("Dest", fields: [PEA_name_dest], references: [identity_id], onUpdate: NoAction)
+
+  @@map("transaction_data")
 }
