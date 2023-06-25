@@ -30,6 +30,7 @@
         "remix-utils": "^6.4.1"
     },
     "devDependencies": {
+        "@flydotio/dockerfile": "^0.2.16",
         "@remix-run/dev": "^1.17.0",
         "@remix-run/eslint-config": "^1.17.0",
         "@types/qs": "^6.9.7",
