@@ -4,6 +4,7 @@ import * as Remix from '@remix-run/react'
 import type { LinksFunction } from '@remix-run/node'
 
 import stylesheet from '~/tailwind.css'
+import { Header } from './layout/header'
 
 export const links: LinksFunction = () => [
     ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
@@ -24,7 +25,13 @@ export default function App() {
                 <Remix.Links />
             </head>
             <body className="h-full">
-                <Remix.Outlet />
+                <div className="min-h-full">
+                    <Header></Header>
+
+                    <main className="-mt-44">
+                        <Remix.Outlet />
+                    </main>
+                </div>
                 <Remix.ScrollRestoration />
                 <Remix.Scripts />
                 <Remix.LiveReload />

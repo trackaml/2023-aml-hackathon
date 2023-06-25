@@ -8,15 +8,15 @@ datasource db {
 }
 
 model BeneficialOwner {
-  id                   BigInt           @id
-  company_id           BigInt?
+  id                   Int           @id
+  company_id           Int?
   stakehold_type       String?
   stakeholder_name     String?
   is_foreign           String?
   modal                String?
-  share_capital_placed BigInt?
-  price_per_sheet      BigInt?
-  total_share_placed   BigInt?
+  share_capital_placed Int?
+  price_per_sheet      Int?
+  total_share_placed   Int?
   position             String?
   identity_id          String?
   address              String?
@@ -29,31 +29,35 @@ model BeneficialOwner {
 }
 
 model CompanyProfile {
-  id               BigInt             @id
+  id               Int             @id
   company_name     String?
   address          String?
   postal_code      String?
-  province_id      BigInt?
+  province_id      Int?
   province_name    String?
-  regency_id       BigInt?
+  regency_id       Int?
   regency_name     String?
   beneficial_owner BeneficialOwner[]
+  potensial_risk   PotentialRisk?
 
   @@map("company_profile")
 }
 
 model PotentialRisk {
-  id           BigInt    @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   company_name String?
   risk1        Float?    @db.Real
   risk2        Float?    @db.Real
   total_risk   Float?    @db.Real
   created_at   DateTime? @default(now()) @db.Timestamptz(6)
-  company_id   BigInt?
+  company_id   Int @unique
+  company      CompanyProfile? @relation(fields: [company_id], references: [id], onUpdate: NoAction)
+
+  @@map("potential_risk")
 }
 
 model TransactionData {
-  id                       BigInt  @id
+  id                       Int  @id
   reporter_name            String?
   reporter_id              String?
   reporter_type            String?
@@ -75,6 +79,8 @@ model TransactionData {
   bank_account_name_dest   String?
   country_dest             String?
   instrument_dest          String?
-  transaction_value        BigInt?
+  transaction_value        Int?
   transaction_location     String?
+
+    @@map("transaction_data")
 }

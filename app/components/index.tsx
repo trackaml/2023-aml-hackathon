@@ -1,14 +1,12 @@
-const people = [
-    {
-        name: 'Lindsay Walton',
-        title: 'Front-end Developer',
-        email: 'lindsay.walton@example.com',
-        role: 'Member',
-    },
-    // More people...
-]
+import { CompanyProfile, PotentialRisk } from '@prisma/client'
+import { SerializeFrom } from '@remix-run/node'
+import { NavLink } from '@remix-run/react'
 
-export function EntityTable({ entities }) {
+type EntityTableProps = {
+    entities: SerializeFrom<PotentialRisk & { company: CompanyProfile }>[]
+}
+
+export function EntityTable({ entities }: EntityTableProps) {
     return (
         <div>
             <div className="mt-8 flow-root">
@@ -32,7 +30,7 @@ export function EntityTable({ entities }) {
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                            className="px-3 py-3.5 text-left text-sm text-center font-semibold text-gray-900 w-32"
                                         >
                                             Potential Risk
                                         </th>
@@ -51,30 +49,43 @@ export function EntityTable({ entities }) {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                    {people.map((company, index) => (
-                                        <tr key={company.email}>
+                                    {entities.map((entity, index) => (
+                                        <tr key={entity.id}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {index + 1}
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {company.title}
+                                                {entity.company_name}
+                                            </td>
+                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-500">
+                                                <span
+                                                    className="inline-block bg-gradient-to-r to-lime-500 from-rose-500 w-full items-center rounded-md px-2 py-1 text-xs font-medium text-gray-100"
+                                                    style={
+                                                        {
+                                                            '--tw-gradient-from-position': `${entity.total_risk}%`,
+                                                            '--tw-gradient-to-position': `${entity.total_risk}%`,
+                                                        } as any
+                                                    }
+                                                >
+                                                    {entity.total_risk.toFixed(
+                                                        1
+                                                    )}
+                                                    %
+                                                </span>
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {company.email}
-                                            </td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {company.role}
+                                                {entity.company?.regency_name}
                                             </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                <a
-                                                    href="/"
+                                                <NavLink
+                                                    to={`/view/${entity.company_id}`}
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                 >
-                                                    Edit
+                                                    View
                                                     <span className="sr-only">
-                                                        , {company.name}
+                                                        , {entity.company_name}
                                                     </span>
-                                                </a>
+                                                </NavLink>
                                             </td>
                                         </tr>
                                     ))}

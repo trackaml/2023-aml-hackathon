@@ -20,13 +20,16 @@
         "@supabase/supabase-js": "^2.26.0",
         "@tailwindcss/forms": "^0.5.3",
         "clsx": "^1.2.1",
+        "date-fns": "^2.30.0",
         "isbot": "^3.6.8",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "react-range-slider-input": "^3.0.7"
     },
     "devDependencies": {
         "@remix-run/dev": "^1.17.0",
         "@remix-run/eslint-config": "^1.17.0",
+        "@types/qs": "^6.9.7",
         "@types/react": "^18.0.35",
         "@types/react-dom": "^18.0.11",
         "eslint": "^8.38.0",
