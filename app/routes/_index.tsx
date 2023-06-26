@@ -66,13 +66,13 @@ export default function Index() {
                                 </span>
                             </div>
                             <RangeSlider
-                                className="w-full"
+                                className="w-full lg:mr-2"
                                 min={min}
                                 max={max}
                                 onInput={setSelectedYears}
                                 value={selectedYears}
                             />
-                            <div className="max-w-xl text-sm text-gray-500 flex ml-2">
+                            <div className="max-w-xl text-sm text-gray-500 flex">
                                 <span className="whitespace-nowrap">
                                     To: {selectedYears[1]}
                                 </span>
